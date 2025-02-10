@@ -1,0 +1,648 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost"
+        }
+    ],
+    "info": {
+        "name": "Task Manager API",
+        "_postman_id": "d8511571-73a6-41bf-99a4-43d50b2b91c7",
+        "description": "Task Manager API Documentation",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "Register a new user.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"John Doe\",\"email\":\"john.doe@example.com\",\"password\":\"password123\",\"password_confirmation\":\"password123\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n \"access_token\": \"token123\",\n \"token_type\": \"Bearer\",\n \"user\": {\n     \"id\": 1,\n     \"name\": \"John Doe\",\n     \"email\": \"john.doe@example.com\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Login user.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"john.doe@example.com\",\"password\":\"password123\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"access_token\": \"token123\",\n \"token_type\": \"Bearer\",\n \"user\": {\n     \"id\": 1,\n     \"name\": \"John Doe\",\n     \"email\": \"john.doe@example.com\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Logout user.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 204,
+                            "body": "{}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Display a list of tasks.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks",
+                            "query": [
+                                {
+                                    "key": "is_completed",
+                                    "value": "1",
+                                    "description": "Filter by completed tasks.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "priority",
+                                    "value": "High",
+                                    "description": "Filter by task priority.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "search",
+                                    "value": "Task",
+                                    "description": "Search in task title.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/tasks?is_completed=1&priority=High&search=Task"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get all tasks for the authenticated user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"data\": [\n     {\n         \"id\": 1,\n         \"title\": \"Example Task\",\n         \"description\": \"A task example\",\n         \"priority\": \"High\",\n         \"due_date\": \"2025-01-01\",\n         \"is_completed\": false\n     }\n ]\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a new task.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tasks"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "title",
+                                    "value": "New Task",
+                                    "type": "text",
+                                    "description": "The title of the task."
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Task description",
+                                    "type": "text",
+                                    "description": "The description of the task."
+                                },
+                                {
+                                    "key": "due_date",
+                                    "value": "2025-01-23",
+                                    "type": "text",
+                                    "description": "The due date of the task (YYYY-MM-DD)."
+                                },
+                                {
+                                    "key": "priority",
+                                    "value": "High",
+                                    "type": "text",
+                                    "description": "The priority of the task (Urgent, High, Normal, Low)."
+                                },
+                                {
+                                    "key": "tags[0]",
+                                    "value": "inqbb",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "Create a new task for the authenticated user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n \"id\": 1,\n \"title\": \"New Task\",\n \"description\": \"Task description\",\n \"priority\": \"High\",\n \"due_date\": \"2025-01-23\",\n \"created_at\": \"2025-01-01 00:00:00\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Display a specific task.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tasks\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the task."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Fetch the details of a specific task for the authenticated user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"id\": 1,\n \"title\": \"Example Task\",\n \"description\": \"Detailed task description\",\n \"priority\": \"High\",\n \"due_date\": \"2025-01-01\",\n \"is_completed\": false,\n \"created_at\": \"2025-01-01 00:00:00\",\n \"updated_at\": \"2025-01-01 00:00:00\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a task.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tasks\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the task."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "title",
+                                    "value": "Updated Task",
+                                    "type": "text",
+                                    "description": "The title of the task."
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "Updated description",
+                                    "type": "text",
+                                    "description": "The description of the task."
+                                },
+                                {
+                                    "key": "due_date",
+                                    "value": "2051-07-23",
+                                    "type": "text",
+                                    "description": "Must be a valid date. Must be a date after or equal to <code>today<\/code>."
+                                },
+                                {
+                                    "key": "priority",
+                                    "value": "Normal",
+                                    "type": "text",
+                                    "description": "The priority of the task."
+                                },
+                                {
+                                    "key": "tags[0]",
+                                    "value": "ryrqmbsxhaqscjdvxysfxm",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "existing_attachments[0]",
+                                    "value": "16",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
+                                },
+                                {
+                                    "key": "_method",
+                                    "value": "PUT",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "description": "Update the specified task for the authenticated user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"id\": 1,\n \"title\": \"Updated Task\",\n \"description\": \"Updated description\",\n \"priority\": \"Normal\",\n \"due_date\": \"2025-01-25\",\n \"updated_at\": \"2025-01-02 00:00:00\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a task.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tasks\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the task."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete the specified task for the authenticated user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 204,
+                            "body": "{}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Mark the task as completed.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks\/:task\/complete",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tasks\/:task\/complete",
+                            "variable": [
+                                {
+                                    "id": "task",
+                                    "key": "task",
+                                    "value": "cum",
+                                    "description": "The task."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the task."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Change the task status to completed.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"id\": 1,\n \"title\": \"Example Task\",\n \"is_completed\": true,\n \"completed_at\": \"2025-01-02 00:00:00\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Mark the task as incomplete.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks\/:task\/incomplete",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tasks\/:task\/incomplete",
+                            "variable": [
+                                {
+                                    "id": "task",
+                                    "key": "task",
+                                    "value": "voluptatem",
+                                    "description": "The task."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the task."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Change the task status to incomplete.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"id\": 1,\n \"title\": \"Example Task\",\n \"is_completed\": false,\n \"completed_at\": null\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Archive the task.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks\/:task\/archive",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tasks\/:task\/archive",
+                            "variable": [
+                                {
+                                    "id": "task",
+                                    "key": "task",
+                                    "value": "facilis",
+                                    "description": "The task."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the task."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Archive a specific task for the authenticated user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"id\": 1,\n \"title\": \"Example Task\",\n \"is_archived\": true,\n \"archived_at\": \"2025-01-02 00:00:00\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Restore the archived task.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tasks\/:task\/restore",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tasks\/:task\/restore",
+                            "variable": [
+                                {
+                                    "id": "task",
+                                    "key": "task",
+                                    "value": "quia",
+                                    "description": "The task."
+                                },
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the task."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Restore an archived task for the authenticated user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"id\": 1,\n \"title\": \"Example Task\",\n \"is_archived\": false,\n \"archived_at\": null\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "Authorization",
+                "type": "string"
+            }
+        ]
+    }
+}

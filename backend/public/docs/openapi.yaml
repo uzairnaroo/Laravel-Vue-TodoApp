@@ -1,0 +1,706 @@
+openapi: 3.0.3
+info:
+  title: 'Task Manager API'
+  description: 'Task Manager API Documentation'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+paths:
+  /api/register:
+    post:
+      summary: 'Register a new user.'
+      operationId: registerANewUser
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  access_token: token123
+                  token_type: Bearer
+                  user:
+                    id: 1
+                    name: 'John Doe'
+                    email: john.doe@example.com
+                properties:
+                  access_token:
+                    type: string
+                    example: token123
+                  token_type:
+                    type: string
+                    example: Bearer
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'John Doe'
+                      email:
+                        type: string
+                        example: john.doe@example.com
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "The user's name."
+                  example: 'John Doe'
+                  nullable: false
+                email:
+                  type: string
+                  description: "The user's email."
+                  example: john.doe@example.com
+                  nullable: false
+                password:
+                  type: string
+                  description: "The user's password."
+                  example: password123
+                  nullable: false
+                password_confirmation:
+                  type: string
+                  description: 'The password confirmation.'
+                  example: password123
+                  nullable: false
+              required:
+                - name
+                - email
+                - password
+                - password_confirmation
+      security: []
+  /api/login:
+    post:
+      summary: 'Login user.'
+      operationId: loginUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  access_token: token123
+                  token_type: Bearer
+                  user:
+                    id: 1
+                    name: 'John Doe'
+                    email: john.doe@example.com
+                properties:
+                  access_token:
+                    type: string
+                    example: token123
+                  token_type:
+                    type: string
+                    example: Bearer
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'John Doe'
+                      email:
+                        type: string
+                        example: john.doe@example.com
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: "The user's email."
+                  example: john.doe@example.com
+                  nullable: false
+                password:
+                  type: string
+                  description: "The user's password."
+                  example: password123
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+  /api/logout:
+    post:
+      summary: 'Logout user.'
+      operationId: logoutUser
+      description: ''
+      parameters: []
+      responses:
+        204:
+          description: ''
+      tags:
+        - Endpoints
+      security: []
+  /api/tasks:
+    get:
+      summary: 'Display a list of tasks.'
+      operationId: displayAListOfTasks
+      description: 'Get all tasks for the authenticated user.'
+      parameters:
+        -
+          in: query
+          name: is_completed
+          description: 'Filter by completed tasks.'
+          example: true
+          required: false
+          schema:
+            type: boolean
+            description: 'Filter by completed tasks.'
+            example: true
+            nullable: false
+        -
+          in: query
+          name: priority
+          description: 'Filter by task priority.'
+          example: High
+          required: false
+          schema:
+            type: string
+            description: 'Filter by task priority.'
+            example: High
+            nullable: false
+        -
+          in: query
+          name: search
+          description: 'Search in task title.'
+          example: Task
+          required: false
+          schema:
+            type: string
+            description: 'Search in task title.'
+            example: Task
+            nullable: false
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      title: 'Example Task'
+                      description: 'A task example'
+                      priority: High
+                      due_date: '2025-01-01'
+                      is_completed: false
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        title: 'Example Task'
+                        description: 'A task example'
+                        priority: High
+                        due_date: '2025-01-01'
+                        is_completed: false
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: 'Example Task'
+                        description:
+                          type: string
+                          example: 'A task example'
+                        priority:
+                          type: string
+                          example: High
+                        due_date:
+                          type: string
+                          example: '2025-01-01'
+                        is_completed:
+                          type: boolean
+                          example: false
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a new task.'
+      operationId: storeANewTask
+      description: 'Create a new task for the authenticated user.'
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  title: 'New Task'
+                  description: 'Task description'
+                  priority: High
+                  due_date: '2025-01-23'
+                  created_at: '2025-01-01 00:00:00'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: 'New Task'
+                  description:
+                    type: string
+                    example: 'Task description'
+                  priority:
+                    type: string
+                    example: High
+                  due_date:
+                    type: string
+                    example: '2025-01-23'
+                  created_at:
+                    type: string
+                    example: '2025-01-01 00:00:00'
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: 'The title of the task.'
+                  example: 'New Task'
+                  nullable: false
+                description:
+                  type: string
+                  description: 'The description of the task.'
+                  example: 'Task description'
+                  nullable: false
+                due_date:
+                  type: string
+                  description: 'The due date of the task (YYYY-MM-DD).'
+                  example: '2025-01-23'
+                  nullable: true
+                priority:
+                  type: string
+                  description: 'The priority of the task (Urgent, High, Normal, Low).'
+                  example: High
+                  nullable: true
+                tags:
+                  type: array
+                  description: 'Must not be greater than 50 characters.'
+                  example:
+                    - inqbb
+                  items:
+                    type: string
+                attachments:
+                  type: array
+                  description: 'Must be a file. Must not be greater than 2048 kilobytes.'
+                  items:
+                    type: string
+                    format: binary
+              required:
+                - title
+                - description
+      security: []
+  '/api/tasks/{id}':
+    get:
+      summary: 'Display a specific task.'
+      operationId: displayASpecificTask
+      description: 'Fetch the details of a specific task for the authenticated user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  title: 'Example Task'
+                  description: 'Detailed task description'
+                  priority: High
+                  due_date: '2025-01-01'
+                  is_completed: false
+                  created_at: '2025-01-01 00:00:00'
+                  updated_at: '2025-01-01 00:00:00'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: 'Example Task'
+                  description:
+                    type: string
+                    example: 'Detailed task description'
+                  priority:
+                    type: string
+                    example: High
+                  due_date:
+                    type: string
+                    example: '2025-01-01'
+                  is_completed:
+                    type: boolean
+                    example: false
+                  created_at:
+                    type: string
+                    example: '2025-01-01 00:00:00'
+                  updated_at:
+                    type: string
+                    example: '2025-01-01 00:00:00'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update a task.'
+      operationId: updateATask
+      description: 'Update the specified task for the authenticated user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  title: 'Updated Task'
+                  description: 'Updated description'
+                  priority: Normal
+                  due_date: '2025-01-25'
+                  updated_at: '2025-01-02 00:00:00'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: 'Updated Task'
+                  description:
+                    type: string
+                    example: 'Updated description'
+                  priority:
+                    type: string
+                    example: Normal
+                  due_date:
+                    type: string
+                    example: '2025-01-25'
+                  updated_at:
+                    type: string
+                    example: '2025-01-02 00:00:00'
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: 'The title of the task.'
+                  example: 'Updated Task'
+                  nullable: false
+                description:
+                  type: string
+                  description: 'The description of the task.'
+                  example: 'Updated description'
+                  nullable: false
+                due_date:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
+                  example: '2051-07-23'
+                  nullable: false
+                priority:
+                  type: string
+                  description: 'The priority of the task.'
+                  example: Normal
+                  nullable: false
+                tags:
+                  type: array
+                  description: 'Must not be greater than 50 characters.'
+                  example:
+                    - ryrqmbsxhaqscjdvxysfxm
+                  items:
+                    type: string
+                existing_attachments:
+                  type: array
+                  description: 'The <code>id</code> of an existing record in the attachments table.'
+                  example:
+                    - 16
+                  items:
+                    type: integer
+                attachments:
+                  type: array
+                  description: 'Must be a file. Must not be greater than 2048 kilobytes.'
+                  items:
+                    type: string
+                    format: binary
+      security: []
+    delete:
+      summary: 'Delete a task.'
+      operationId: deleteATask
+      description: 'Delete the specified task for the authenticated user.'
+      parameters: []
+      responses:
+        204:
+          description: ''
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the task.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/tasks/{task}/complete':
+    post:
+      summary: 'Mark the task as completed.'
+      operationId: markTheTaskAsCompleted
+      description: 'Change the task status to completed.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  title: 'Example Task'
+                  is_completed: true
+                  completed_at: '2025-01-02 00:00:00'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: 'Example Task'
+                  is_completed:
+                    type: boolean
+                    example: true
+                  completed_at:
+                    type: string
+                    example: '2025-01-02 00:00:00'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: task
+        description: 'The task.'
+        example: cum
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the task.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/tasks/{task}/incomplete':
+    post:
+      summary: 'Mark the task as incomplete.'
+      operationId: markTheTaskAsIncomplete
+      description: 'Change the task status to incomplete.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  title: 'Example Task'
+                  is_completed: false
+                  completed_at: null
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: 'Example Task'
+                  is_completed:
+                    type: boolean
+                    example: false
+                  completed_at:
+                    type: string
+                    example: null
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: task
+        description: 'The task.'
+        example: voluptatem
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the task.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/tasks/{task}/archive':
+    post:
+      summary: 'Archive the task.'
+      operationId: archiveTheTask
+      description: 'Archive a specific task for the authenticated user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  title: 'Example Task'
+                  is_archived: true
+                  archived_at: '2025-01-02 00:00:00'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: 'Example Task'
+                  is_archived:
+                    type: boolean
+                    example: true
+                  archived_at:
+                    type: string
+                    example: '2025-01-02 00:00:00'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: task
+        description: 'The task.'
+        example: facilis
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the task.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/tasks/{task}/restore':
+    post:
+      summary: 'Restore the archived task.'
+      operationId: restoreTheArchivedTask
+      description: 'Restore an archived task for the authenticated user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  title: 'Example Task'
+                  is_archived: false
+                  archived_at: null
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: 'Example Task'
+                  is_archived:
+                    type: boolean
+                    example: false
+                  archived_at:
+                    type: string
+                    example: null
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: task
+        description: 'The task.'
+        example: quia
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: id
+        description: 'The ID of the task.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+tags:
+  -
+    name: Endpoints
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: null
+security:
+  -
+    default: []
